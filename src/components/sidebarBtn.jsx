@@ -1,5 +1,5 @@
 import React from "react";
-import { FaBars } from "react-icons/fa";
+import { BsFilterLeft } from "react-icons/bs";
 import { useGlobalContext } from "../context";
 export const Bars = ({ firstClass }) => {
   const { sidebarOpen, setSidebarOpen } = useGlobalContext();
@@ -10,7 +10,7 @@ export const Bars = ({ firstClass }) => {
         setSidebarOpen(!sidebarOpen);
       }}
     >
-      <FaBars className="sidebar-icon"></FaBars>
+      <BsFilterLeft className="sidebar-icon"></BsFilterLeft>
     </button>
   );
 };

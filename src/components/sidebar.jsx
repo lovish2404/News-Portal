@@ -4,7 +4,7 @@ import { useGlobalContext } from "../context";
 import { categories } from "../categories";
 import { Bars } from "./sidebarBtn";
 export const Sidebar = ({ setPageToken }) => {
-  const { filterList, setFilters, setIsMount } = useGlobalContext();
+  const { filterList, setFilters } = useGlobalContext();
   const { sidebarOpen, setSidebarOpen } = useGlobalContext();
   const [msg, showMsg] = useState(false);
 
@@ -14,10 +14,6 @@ export const Sidebar = ({ setPageToken }) => {
 
     if (e.target.classList.contains("active")) {
       setPageToken("");
-      setIsMount(false);
-      if (filterList.length == 1) {
-        setIsMount(true);
-      }
       setFilters((prev) => {
         return prev.filter((name) => {
           return name != val;
@@ -33,7 +29,6 @@ export const Sidebar = ({ setPageToken }) => {
       }
       setPageToken("");
       setFilters((prev) => {
-        setIsMount(true);
         return [...prev, val];
       });
     }
@@ -63,7 +58,7 @@ export const Sidebar = ({ setPageToken }) => {
           </p>
           <Bars firstClass="inSidebar"></Bars>
           <div className="sidebarHeader">
-            <h2>Filter</h2>
+            <h2>Filters</h2>
           </div>
           <ul className="filters">
             {categories.map((name) => {

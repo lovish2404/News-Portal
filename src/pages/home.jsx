@@ -6,7 +6,7 @@ import { useGlobalContext } from "../context";
 import { ArticleList } from "../components/articlesList";
 import { Skeleton } from "../components/skeleton";
 export const Home = () => {
-  const { filterList, searchKeyword, isMount } = useGlobalContext();
+  const { filterList, searchKeyword } = useGlobalContext();
   const [articlesList, setArticleList] = useState([]);
   const [pageToken, setPageToken] = useState("");
   const [loading, setLoading] = useState(true);

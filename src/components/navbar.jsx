@@ -20,6 +20,7 @@ export const Navbar = ({
     setPageToken("");
     setArticleList([]);
     setLoading(true);
+    fetchData();
   };
   return (
     <div className="navbar">

@@ -74,7 +74,11 @@ export const FullArticle = () => {
               <img src={img_url} alt="article_img" onError={handleError} />
             )}
           </div>
-          <pre className="full_content">{info.content}</pre>
+          <pre className="full_content">
+            ShowCasing dummy api content
+            <br />
+            {info.content}
+          </pre>
           <Video videoUrl={video_url}></Video>
         </main>
       </>
