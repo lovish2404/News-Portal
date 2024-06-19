@@ -17,7 +17,7 @@ export const Home = () => {
       const data = await customAxios.get("", {
         params: {
           image: 1,
-          size: "5",
+          size: "10",
           language: "en,hi,mr,pa,ta",
           ...(filterFinal && { category: filterFinal }),
           ...(pageToken && { page: pageToken }),

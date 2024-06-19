@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
-import customAxios from "../axios";
-import { useGlobalContext } from "../context";
+import React from "react";
 import { SingleArticle } from "./singleArticle";
 
 export const ArticleList = ({ articlesList, showMore, isMoreAvailable }) => {
+  if (articlesList.length == 0) {
+    return (
+      <div className="Modal">
+        <span>No article</span>
+      </div>
+    );
+  }
   return (
     <>
       <section className="center">

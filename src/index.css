@@ -278,8 +278,16 @@ img {
   gap: 10px;
   text-transform: capitalize;
 }
+@media screen and (max-width: 450px) {
+  .sourceHero span {
+    display: none;
+  }
+  #publish span {
+    display: block;
+  }
+}
 .sourceHeroImage {
-  height: 45px;
+  height: auto;
   width: 45px;
 }
 .sourceHeroImage img {
@@ -319,7 +327,12 @@ img {
 }
 .articleImg img {
   width: 50%;
-  min-width: 550px;
+  aspect-ratio: 16/9;
+}
+@media screen and (max-width: 1000px) {
+  .articleImg img {
+    width: 100%;
+  }
 }
 pre {
   font-size: 20px;
@@ -430,4 +443,11 @@ pre {
   .navbar p {
     display: none;
   }
+}
+.Modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  font-size: 50px;
 }
