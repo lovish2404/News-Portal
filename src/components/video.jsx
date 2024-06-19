@@ -1,7 +1,7 @@
 import React from "react";
 
 const placeholderVideo =
-  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 export const Video = ({ videoUrl }) => {
   return (
     <div className="iframe-container">
