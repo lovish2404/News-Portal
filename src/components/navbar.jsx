@@ -2,13 +2,8 @@ import React from "react";
 import { useGlobalContext } from "../context";
 import { CiSearch } from "react-icons/ci";
 import { Bars } from "./sidebarBtn";
-export const Navbar = ({
-  fetchData,
-  setPageToken,
-  setArticleList,
-  setLoading,
-}) => {
-  const { searchKeyword, setSearchKeyword } = useGlobalContext();
+export const Navbar = ({ setPageToken, setArticleList, setLoading }) => {
+  const { searchKeyword, setSearchKeyword, setFilters } = useGlobalContext();
 
   //to handle search value dynamically
   function handleChange(e) {
@@ -19,8 +14,8 @@ export const Navbar = ({
     e.preventDefault();
     setPageToken("");
     setArticleList([]);
+    setFilters([]);
     setLoading(true);
-    fetchData();
   };
   return (
     <div className="navbar">
