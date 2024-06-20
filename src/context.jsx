@@ -6,7 +6,7 @@ const AppProvider = ({ children }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [filterList, setFilters] = useState([]);
-  const [isMount, setIsMount] = useState(false);
+  const [saveList, setSaveList] = useState([]);
   return (
     <AppContext.Provider
       value={{
@@ -16,8 +16,8 @@ const AppProvider = ({ children }) => {
         setSidebarOpen,
         filterList,
         setFilters,
-        isMount,
-        setIsMount,
+        saveList,
+        setSaveList,
       }}
     >
       {children}

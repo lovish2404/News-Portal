@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
+import { useGlobalContext } from "../context";
 const placerholderUrl =
   "https://via.placeholder.com/640x360.png?text=News+Image&bg=333333&fg=ffffff";
 export const SingleArticle = ({
-  img_url,
+  image_url,
   pubDate,
   article_id,
   title,
@@ -11,8 +14,34 @@ export const SingleArticle = ({
   source_id,
   video_url,
   creator,
+  description,
 }) => {
   const navigate = useNavigate();
+  const [bookMark, setIsBookMark] = useState(false);
+  const { saveList, setSaveList } = useGlobalContext();
+  const checkIfSaved = saveList?.some(
+    (obj) =>
+      obj.hasOwnProperty("article_id") && obj["article_id"] === article_id
+  );
+  console.log(checkIfSaved);
+  useEffect(() => {
+    if (checkIfSaved) {
+      console.log("is BB");
+      setIsBookMark(true);
+    }
+  }, []);
+
+  const article = {
+    image_url,
+    pubDate,
+    article_id,
+    title,
+    source_icon,
+    source_id,
+    video_url,
+    creator,
+    description,
+  };
   //for handling broken image links
   const handleError = (e) => {
     e.target.src = placerholderUrl;
@@ -22,26 +51,45 @@ export const SingleArticle = ({
       state: {
         article_id,
         source_icon,
-        img_url,
+        image_url,
         video_url,
         source_id,
         title,
         pubDate,
         creator,
+        description,
       },
     });
   };
+  const handleBookmark = () => {
+    console.log(saveList, "this is saveLis");
+    if (bookMark) {
+      setSaveList((prev) => {
+        const newSaveList = prev.filter((item) => {
+          const itemId = item?.article_id;
+          return itemId != article_id;
+        });
+        return newSaveList;
+      });
+    } else {
+      setSaveList((prev) => {
+        console.log(article, "ssaa");
+        return [...prev, article];
+      });
+    }
+    setIsBookMark(!bookMark);
+  };
   return (
     <>
-      <div className="article" onClick={handleRedirection}>
-        <div className="img">
+      <div className="article">
+        <div className="img" onClick={handleRedirection}>
           <img
-            src={img_url ? img_url : placerholderUrl}
+            src={image_url ? image_url : placerholderUrl}
             alt="articleImg"
             onError={handleError}
           />
         </div>
-        <div className="Info">
+        <div className="Info" onClick={handleRedirection}>
           <span className="title">{title}</span>
           <div className="divContainer">
             <div className="aboutSource">
@@ -55,7 +103,20 @@ export const SingleArticle = ({
             <span>Read More</span>
           </div>
         </div>
-        <div className="date">{`Posted on ${pubDate}`}</div>
+        <div className="date">
+          {`Posted on ${pubDate}`}
+          {bookMark ? (
+            <FaBookmark
+              onClick={handleBookmark}
+              style={{ cursor: "pointer" }}
+            />
+          ) : (
+            <FaRegBookmark
+              onClick={handleBookmark}
+              style={{ cursor: "pointer" }}
+            />
+          )}
+        </div>
       </div>
     </>
   );

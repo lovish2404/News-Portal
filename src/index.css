@@ -230,8 +230,10 @@ img {
   background-color: rgb(244, 245, 247);
   height: 30px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 15px;
+  cursor: default;
 }
 #sourceName {
   margin-left: 10px;
@@ -261,7 +263,7 @@ img {
   display: flex;
   justify-content: space-between;
 }
-.heroHeader button {
+.goBackBtn {
   background: black;
   color: white;
   width: 20%;
@@ -436,7 +438,7 @@ pre {
     position: unset;
   }
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
   .navbar {
     justify-content: space-around;
   }
@@ -450,4 +452,85 @@ pre {
   align-items: center;
   height: 400px;
   font-size: 50px;
+}
+
+/* for pagination footer */
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ccc;
+}
+
+.footer-button {
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.footer-button svg {
+  margin-right: 5px;
+  color: black;
+  height: 20px;
+  width: auto;
+}
+
+.footer-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.footer-button:not(:disabled):hover {
+  background-color: #336699;
+}
+
+.footer-page-info {
+  margin: 0 10px;
+  font-size: 16px;
+}
+
+/* bookmark Styling */
+
+.goToSaved {
+  height: 45px;
+  width: 45px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.goToSaved svg {
+  height: 50%;
+  width: auto;
+}
+
+.BookmarksTab {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 10px;
+}
+.BookmarksTab button {
+  height: 40px;
+  position: absolute;
+  left: 10px;
+}
+@media screen and (max-width: 750px) {
+  .BookmarksTab button {
+    position: initial;
+  }
+  .BookmarksTab {
+    justify-content: space-between;
+  }
+}
+.BookmarksTab span {
+  font-size: 40px;
 }

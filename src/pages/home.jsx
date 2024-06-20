@@ -11,8 +11,17 @@ export const Home = () => {
   const [pageToken, setPageToken] = useState("");
   const [loading, setLoading] = useState(true);
   const [isMoreAvailable, setIsMoreAvailable] = useState(true);
+  const [paginationPayload, setPaginationPayload] = useState({
+    total: 0,
+    nextPageToken: "",
+    prevPageToken: ["nan"],
+    currentPage: 1,
+  });
+  const footer = true;
   const filterFinal = filterList.join(",");
-  const fetchData = async () => {
+  const fetchData = async (token) => {
+    console.log(token);
+    console.log(paginationPayload);
     try {
       const data = await customAxios.get("", {
         params: {
@@ -20,11 +29,17 @@ export const Home = () => {
           size: "10",
           language: "en,hi,mr,pa,ta",
           ...(filterFinal && { category: filterFinal }),
-          ...(pageToken && { page: pageToken }),
+          ...(token && token !== "nan" && { page: token }),
           ...(searchKeyword && { qInTitle: searchKeyword }),
         },
       });
-
+      setPaginationPayload((prev) => ({
+        ...prev,
+        ...(prev.currentPage === 1 && {
+          total: Math.ceil(data?.data?.totalResults / 10),
+        }),
+        nextPageToken: data?.data?.nextPage,
+      }));
       //used this if-else to prevent fetching more articles
       if (data?.data?.nextPage) {
         setIsMoreAvailable(true);
@@ -33,19 +48,16 @@ export const Home = () => {
         setPageToken(null);
         setIsMoreAvailable(false);
       }
-      setArticleList((prev) => {
-        return [...prev, ...data?.data?.results];
-      });
+      setArticleList(data?.data?.results);
     } catch (error) {}
     setLoading(false);
   };
-  const showMore = () => {
-    fetchData();
+  const showMore = (token) => {
+    fetchData(token);
   };
 
   useEffect(() => {
     setLoading(true);
-    setArticleList([]);
     setPageToken("");
     fetchData();
   }, [filterList]);
@@ -65,6 +77,11 @@ export const Home = () => {
           articlesList={articlesList}
           showMore={showMore}
           isMoreAvailable={isMoreAvailable}
+          footer={footer}
+          setLoading={setLoading}
+          paginationPayload={paginationPayload}
+          setPaginationPayload={setPaginationPayload}
+          setPageToken={setPageToken}
         ></ArticleList>
       )}
     </>
