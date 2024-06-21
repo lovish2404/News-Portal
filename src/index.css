@@ -537,6 +537,9 @@ pre {
   .BookmarksTab {
     justify-content: space-between;
   }
+  .BookmarksTab span {
+    font-size: 7.2vw !important;
+  }
 }
 .BookmarksTab span {
   font-size: 40px;
