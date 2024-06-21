@@ -19,7 +19,7 @@ export const Bookmarks = () => {
         </button>
         <span>Your Saved Articles</span>
       </header>
-      <ArticleList articlesList={saveList} footer={false} />
+      <ArticleList articlesList={saveList} footer={footer} />
     </>
   );
 };

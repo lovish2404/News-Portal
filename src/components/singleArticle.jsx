@@ -27,7 +27,7 @@ export const SingleArticle = ({
     if (checkIfSaved) {
       setIsBookMark(true);
     }
-  }, []);
+  }, [saveList]);
 
   const article = {
     image_url,
@@ -64,6 +64,7 @@ export const SingleArticle = ({
       setSaveList((prev) => {
         const newSaveList = prev.filter((item) => {
           const itemId = item?.article_id;
+
           return itemId != article_id;
         });
         return newSaveList;
