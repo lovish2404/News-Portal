@@ -3,17 +3,16 @@ import { useEffect, useRef } from "react";
 import { useGlobalContext } from "../context";
 import { categories } from "../categories";
 import { Bars } from "./sidebarBtn";
-export const Sidebar = ({ setPageToken }) => {
+export const Sidebar = () => {
   const { filterList, setFilters } = useGlobalContext();
-  const { sidebarOpen, setSidebarOpen } = useGlobalContext();
+  const { sidebarOpen, setSidebarOpen, resetPayload } = useGlobalContext();
   const [msg, showMsg] = useState(false);
 
   //to update filterList
   function handler(e) {
     const val = e.target.getAttribute("name");
-
     if (e.target.classList.contains("active")) {
-      setPageToken("");
+      resetPayload();
       setFilters((prev) => {
         return prev.filter((name) => {
           return name != val;
@@ -27,7 +26,7 @@ export const Sidebar = ({ setPageToken }) => {
         }, 3000);
         return;
       }
-      setPageToken("");
+      resetPayload();
       setFilters((prev) => {
         return [...prev, val];
       });

@@ -3,9 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import customAxios from "../axios";
 import { Video } from "../components/video";
 import { ArticleLoader } from "../components/articleLoading";
+import { useGlobalContext } from "../context";
 
 export const FullArticle = () => {
   const { state } = useLocation();
+  const { resetPayload } = useGlobalContext();
   const {
     article_id,
     image_url,
@@ -36,6 +38,7 @@ export const FullArticle = () => {
   }, []);
   const handleBack = (e) => {
     e.preventDefault();
+    resetPayload();
     navigate("/");
   };
 

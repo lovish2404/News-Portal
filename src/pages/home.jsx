@@ -6,22 +6,18 @@ import { useGlobalContext } from "../context";
 import { ArticleList } from "../components/articlesList";
 import { Skeleton } from "../components/skeleton";
 export const Home = () => {
-  const { filterList, searchKeyword } = useGlobalContext();
+  const {
+    filterList,
+    searchKeyword,
+    paginationPayload,
+    setPaginationPayload,
+    resetPayload,
+  } = useGlobalContext();
   const [articlesList, setArticleList] = useState([]);
-  const [pageToken, setPageToken] = useState("");
   const [loading, setLoading] = useState(true);
-  const [isMoreAvailable, setIsMoreAvailable] = useState(true);
-  const [paginationPayload, setPaginationPayload] = useState({
-    total: 0,
-    nextPageToken: "",
-    prevPageToken: ["nan"],
-    currentPage: 1,
-  });
   const footer = true;
   const filterFinal = filterList.join(",");
   const fetchData = async (token) => {
-    console.log(token);
-    console.log(paginationPayload);
     try {
       const data = await customAxios.get("", {
         params: {
@@ -40,14 +36,7 @@ export const Home = () => {
         }),
         nextPageToken: data?.data?.nextPage,
       }));
-      //used this if-else to prevent fetching more articles
-      if (data?.data?.nextPage) {
-        setIsMoreAvailable(true);
-        setPageToken(data?.data?.nextPage);
-      } else {
-        setPageToken(null);
-        setIsMoreAvailable(false);
-      }
+
       setArticleList(data?.data?.results);
     } catch (error) {}
     setLoading(false);
@@ -58,30 +47,25 @@ export const Home = () => {
 
   useEffect(() => {
     setLoading(true);
-    setPageToken("");
     fetchData();
+    resetPayload();
   }, [filterList]);
 
   return (
     <>
       <Navbar
         setArticleList={setArticleList}
-        setPageToken={setPageToken}
         fetchData={fetchData}
         setLoading={setLoading}
       ></Navbar>
-      <Sidebar setPageToken={setPageToken}></Sidebar>
+      <Sidebar></Sidebar>
       {loading && <Skeleton></Skeleton>}
       {!loading && (
         <ArticleList
           articlesList={articlesList}
           showMore={showMore}
-          isMoreAvailable={isMoreAvailable}
           footer={footer}
           setLoading={setLoading}
-          paginationPayload={paginationPayload}
-          setPaginationPayload={setPaginationPayload}
-          setPageToken={setPageToken}
         ></ArticleList>
       )}
     </>

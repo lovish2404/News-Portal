@@ -2,16 +2,7 @@ import React from "react";
 import { SingleArticle } from "./singleArticle";
 import { Footer } from "./footer";
 
-export const ArticleList = ({
-  articlesList,
-  showMore,
-  isMoreAvailable,
-  footer,
-  setLoading,
-  paginationPayload,
-  setPaginationPayload,
-  setPageToken,
-}) => {
+export const ArticleList = ({ articlesList, showMore, footer, setLoading }) => {
   if (articlesList.length == 0) {
     return (
       <div className="Modal">
@@ -54,20 +45,7 @@ export const ArticleList = ({
           }
         )}
       </section>
-      {footer && (
-        <Footer
-          showMore={showMore}
-          setLoading={setLoading}
-          paginationPayload={paginationPayload}
-          setPaginationPayload={setPaginationPayload}
-          setPageToken={setPageToken}
-        ></Footer>
-      )}
-      {/* {articlesList.length > 0 && isMoreAvailable && (
-        <div className="showMore">
-          <button onClick={showMore}>Show more</button>
-        </div>
-      )} */}
+      {footer && <Footer showMore={showMore} setLoading={setLoading}></Footer>}
     </>
   );
 };

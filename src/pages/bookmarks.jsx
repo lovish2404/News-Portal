@@ -15,7 +15,7 @@ export const Bookmarks = () => {
     <>
       <header className="BookmarksTab">
         <button onClick={handleBack} className="goBackBtn">
-          Go back
+          Home
         </button>
         <span>Your Saved Articles</span>
       </header>

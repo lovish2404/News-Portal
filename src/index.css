@@ -441,9 +441,16 @@ pre {
 @media screen and (max-width: 450px) {
   .navbar {
     justify-content: space-around;
+    flex-wrap: wrap-reverse;
   }
   .navbar p {
-    display: none;
+    margin-bottom: 30px;
+  }
+  .footer-button {
+    padding: 0px !important;
+  }
+  .footer-page-info {
+    display: ruby;
   }
 }
 .Modal {

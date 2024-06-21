@@ -23,10 +23,8 @@ export const SingleArticle = ({
     (obj) =>
       obj.hasOwnProperty("article_id") && obj["article_id"] === article_id
   );
-  console.log(checkIfSaved);
   useEffect(() => {
     if (checkIfSaved) {
-      console.log("is BB");
       setIsBookMark(true);
     }
   }, []);
@@ -62,7 +60,6 @@ export const SingleArticle = ({
     });
   };
   const handleBookmark = () => {
-    console.log(saveList, "this is saveLis");
     if (bookMark) {
       setSaveList((prev) => {
         const newSaveList = prev.filter((item) => {
@@ -73,7 +70,6 @@ export const SingleArticle = ({
       });
     } else {
       setSaveList((prev) => {
-        console.log(article, "ssaa");
         return [...prev, article];
       });
     }

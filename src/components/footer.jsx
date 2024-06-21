@@ -1,21 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import React from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
+import { useGlobalContext } from "../context";
 
-export const Footer = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-  showMore,
-  setLoading,
-  paginationPayload,
-  setPageToken,
-  setPaginationPayload,
-}) => {
-  const [isPrev, setIsPrev] = useState(false);
+export const Footer = ({ showMore, setLoading }) => {
+  const { paginationPayload, setPaginationPayload, resetPayload } =
+    useGlobalContext();
   const handlePreviousPage = () => {
-    console.log(paginationPayload, "paaaa");
     setLoading(true);
+    showMore(
+      paginationPayload.prevPageToken[paginationPayload.currentPage - 2]
+    );
     setPaginationPayload((prev) => {
       const newPreviousTokens = [...prev.prevPageToken];
       newPreviousTokens.splice(prev.currentPage - 1, 1);
@@ -25,15 +19,11 @@ export const Footer = ({
         prevPageToken: newPreviousTokens,
       };
     });
-    setIsPrev(true);
-    // if (currentPage > 1) {
-    //     onPageChange(currentPage - 1);
-    // }
   };
 
   const handleNextPage = () => {
     setLoading(true);
-    setIsPrev(false);
+    showMore(paginationPayload.nextPageToken);
     setPaginationPayload((prev) => {
       return {
         ...prev,
@@ -41,43 +31,41 @@ export const Footer = ({
         currentPage: prev.currentPage + 1,
       };
     });
-    // if (currentPage < totalPages) {
-    //     onPageChange(currentPage + 1);
-    // }
   };
-  useEffect(() => {
-    if (isPrev) {
-      showMore(
-        paginationPayload.prevPageToken[paginationPayload.currentPage - 2]
-      );
-    } else {
-      showMore(paginationPayload.nextPageToken);
-    }
-  }, [isPrev]);
+  const handleFirstPage = () => {
+    setLoading(true);
+    showMore();
+    resetPayload();
+  };
+
   return (
     <div className="footer">
-      <button className="footer-button">
+      <button
+        className="footer-button"
+        onClick={handleFirstPage}
+        disabled={paginationPayload.currentPage === 1}
+      >
         <GrPrevious></GrPrevious>
         <GrPrevious></GrPrevious>
       </button>
       <button
         className="footer-button"
         onClick={handlePreviousPage}
-        // disabled={currentPage === 1}
+        disabled={paginationPayload.currentPage === 1}
       >
         <GrPrevious />{" "}
       </button>
-      <span grassName="footer-page-info">
+      <span className="footer-page-info">
         Page {paginationPayload.currentPage} of {paginationPayload.total}
       </span>
       <button
         className="footer-button"
         onClick={handleNextPage}
-        // disabled={currentPage === totalPages}
+        disabled={paginationPayload.currentPage === paginationPayload.total}
       >
         <GrNext />
       </button>
-      <button className="footer-button">
+      <button className="footer-button" disabled={true}>
         <GrNext />
         <GrNext />
       </button>
