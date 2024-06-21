@@ -6,7 +6,21 @@ const AppProvider = ({ children }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [filterList, setFilters] = useState([]);
-  const [isMount, setIsMount] = useState(false);
+  const [saveList, setSaveList] = useState([]);
+  const [paginationPayload, setPaginationPayload] = useState({
+    total: 0,
+    nextPageToken: "",
+    prevPageToken: ["nan"],
+    currentPage: 1,
+  });
+  const resetPayload = () => {
+    setPaginationPayload({
+      total: 0,
+      nextPageToken: "",
+      prevPageToken: ["nan"],
+      currentPage: 1,
+    });
+  };
   return (
     <AppContext.Provider
       value={{
@@ -16,8 +30,11 @@ const AppProvider = ({ children }) => {
         setSidebarOpen,
         filterList,
         setFilters,
-        isMount,
-        setIsMount,
+        saveList,
+        setSaveList,
+        paginationPayload,
+        setPaginationPayload,
+        resetPayload,
       }}
     >
       {children}

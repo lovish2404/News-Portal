@@ -3,18 +3,21 @@ import { useLocation, useNavigate } from "react-router-dom";
 import customAxios from "../axios";
 import { Video } from "../components/video";
 import { ArticleLoader } from "../components/articleLoading";
+import { useGlobalContext } from "../context";
 
 export const FullArticle = () => {
   const { state } = useLocation();
+  const { resetPayload } = useGlobalContext();
   const {
     article_id,
-    img_url,
+    image_url,
     video_url,
     source_icon,
     source_id,
     title,
     pubDate,
     creator,
+    description,
   } = state;
   const [info, setInfo] = useState({});
   const [loading, setLoading] = useState(true);
@@ -35,6 +38,7 @@ export const FullArticle = () => {
   }, []);
   const handleBack = (e) => {
     e.preventDefault();
+    resetPayload();
     navigate("/");
   };
 
@@ -49,7 +53,9 @@ export const FullArticle = () => {
       <>
         <main className="hero">
           <header className="heroHeader">
-            <button onClick={handleBack}>Go back</button>
+            <button onClick={handleBack} className="goBackBtn">
+              Home
+            </button>
             <a href={info.source_url} className="sourceHero">
               <div className="sourceHeroImage">
                 {source_icon && <img src={source_icon} alt="source_icon" />}
@@ -60,7 +66,7 @@ export const FullArticle = () => {
           <div className="titleDiv">
             <div>
               <span id="titleMain">{title}</span>
-              <div className="titleDescription">{info.description}</div>
+              <div className="titleDescription">{description}</div>
             </div>
             <div className="publishDate">
               <span id="publish">
@@ -70,12 +76,13 @@ export const FullArticle = () => {
             </div>
           </div>
           <div className="articleImg">
-            {img_url && (
-              <img src={img_url} alt="article_img" onError={handleError} />
+            {image_url && (
+              <img src={image_url} alt="article_img" onError={handleError} />
             )}
           </div>
           <pre className="full_content">
-            ShowCasing dummy api content
+            Showcasing dummy api content as the api response always contains
+            this data because of free subscription <br />
             <br />
             {info.content}
           </pre>

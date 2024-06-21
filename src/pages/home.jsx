@@ -6,13 +6,18 @@ import { useGlobalContext } from "../context";
 import { ArticleList } from "../components/articlesList";
 import { Skeleton } from "../components/skeleton";
 export const Home = () => {
-  const { filterList, searchKeyword } = useGlobalContext();
+  const {
+    filterList,
+    searchKeyword,
+    paginationPayload,
+    setPaginationPayload,
+    resetPayload,
+  } = useGlobalContext();
   const [articlesList, setArticleList] = useState([]);
-  const [pageToken, setPageToken] = useState("");
   const [loading, setLoading] = useState(true);
-  const [isMoreAvailable, setIsMoreAvailable] = useState(true);
+  const footer = true;
   const filterFinal = filterList.join(",");
-  const fetchData = async () => {
+  const fetchData = async (token) => {
     try {
       const data = await customAxios.get("", {
         params: {
@@ -20,51 +25,47 @@ export const Home = () => {
           size: "10",
           language: "en,hi,mr,pa,ta",
           ...(filterFinal && { category: filterFinal }),
-          ...(pageToken && { page: pageToken }),
+          ...(token && token !== "nan" && { page: token }),
           ...(searchKeyword && { qInTitle: searchKeyword }),
         },
       });
+      setPaginationPayload((prev) => ({
+        ...prev,
+        ...(prev.currentPage === 1 && {
+          total: Math.ceil(data?.data?.totalResults / 10),
+        }),
+        nextPageToken: data?.data?.nextPage,
+      }));
 
-      //used this if-else to prevent fetching more articles
-      if (data?.data?.nextPage) {
-        setIsMoreAvailable(true);
-        setPageToken(data?.data?.nextPage);
-      } else {
-        setPageToken(null);
-        setIsMoreAvailable(false);
-      }
-      setArticleList((prev) => {
-        return [...prev, ...data?.data?.results];
-      });
+      setArticleList(data?.data?.results);
     } catch (error) {}
     setLoading(false);
   };
-  const showMore = () => {
-    fetchData();
+  const showMore = (token) => {
+    fetchData(token);
   };
 
   useEffect(() => {
     setLoading(true);
-    setArticleList([]);
-    setPageToken("");
     fetchData();
+    resetPayload();
   }, [filterList]);
 
   return (
     <>
       <Navbar
         setArticleList={setArticleList}
-        setPageToken={setPageToken}
         fetchData={fetchData}
         setLoading={setLoading}
       ></Navbar>
-      <Sidebar setPageToken={setPageToken}></Sidebar>
+      <Sidebar></Sidebar>
       {loading && <Skeleton></Skeleton>}
       {!loading && (
         <ArticleList
           articlesList={articlesList}
           showMore={showMore}
-          isMoreAvailable={isMoreAvailable}
+          footer={footer}
+          setLoading={setLoading}
         ></ArticleList>
       )}
     </>
