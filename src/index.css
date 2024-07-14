@@ -372,6 +372,11 @@ pre {
   border-radius: 8px;
   animation: skeleton-loading 0.7s infinite;
 }
+@media screen and (max-width: 475px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}
 
 @keyframes skeleton-loading {
   0% {
