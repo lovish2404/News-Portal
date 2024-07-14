@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./pages/home";
 import { FullArticle } from "./pages/fullArticle";
 import { Bookmarks } from "./pages/bookmarks";
+import { NotFound } from "./pages/errorRoute";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/bookmarks",
     element: <Bookmarks></Bookmarks>,
+  },
+  {
+    path: "*",
+    element: <NotFound></NotFound>,
   },
 ]);
 export const App = () => {

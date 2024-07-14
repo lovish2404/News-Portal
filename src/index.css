@@ -544,3 +544,19 @@ pre {
 .BookmarksTab span {
   font-size: 40px;
 }
+
+#notFoundContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  text-align: center;
+}
+#notFoundTitle {
+  font-size: 3rem;
+  color: #336699;
+}
+#notFoundMessage {
+  font-size: 1.5rem;
+}
